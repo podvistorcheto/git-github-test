@@ -3,6 +3,7 @@ const path = require('path')
 
 const app = express()
 
+const port = process.env.PORT || 5000
 // setup static and middleware
 app.use(express.static('./public'))
 
@@ -12,10 +13,10 @@ app.use(express.static('./public'))
 //   SSR
 // })
 
-app.all('*', (request, response) => {
-  response.status(404).send('resource not found')
+app.all('*', function(request, response){
+  response.status(404).send('Resource Not Found')
 })
 
-app.listen(5000, () => {
-  console.log('server is listening on port 5000....')
+app.listen(5000, function() {
+  console.log(`Server is listening on port ${port}....`)
 })
