@@ -17,6 +17,6 @@ app.all('*', function(request, response){
   response.status(404).send('Resource Not Found')
 })
 
-app.listen(5000, function() {
+app.listen(port, function() {
   console.log(`Server is listening on port ${port}....`)
 })
