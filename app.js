@@ -3,12 +3,20 @@ const express = require('express');
 const path = require('path');
 const logger = require('./middleware/logger');
 const { engine } = require('express-handlebars');
-const finstocks = require('./Finstocks')
+const finstocks = require('./Finstocks');
+const dotenv = require('dotenv');
+const connectMongoDB = require('./config/database');
+
+// database connect
+dotenv.config({ path: './config/.config.env'})
 
 const app = express()
 
 // init middleware
 app.use(logger);
+
+// use database connectivity
+connectMongoDB();
 
 // handlebar middleware
 app.engine('handlebars', engine());
