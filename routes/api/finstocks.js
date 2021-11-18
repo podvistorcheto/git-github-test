@@ -21,15 +21,6 @@ router.get('/:id', function(request, response){
       response.status(400).json({ message: `No member with the id of ${request.params.id}`});
       }
   });
-  // basic routes
-  // app.get('/', function(request, response){
-  //   response.sendFile(path.join(__dirname, 'public', 'index.html'))
-  // })
-  // app.get('/', (req, res) => {
-  //   res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
-  //   adding to static assets
-  //   SSR
-  // })
 
 // Create finstock
 router.post('/', function(request, response){
