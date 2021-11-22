@@ -8,7 +8,15 @@ router.get('/add', function(request, response){
     response.render('stories/add')
 })
 
-// get index page
-
+// save stories page
+router.post('/', async function(request, response){
+    try {
+      await Story.create()
+      response.redirect('stories')
+    } catch (error) {
+      console.error(error)
+      response.render('errors/500')
+    }
+  })
 
 module.exports = router;

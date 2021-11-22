@@ -11,11 +11,8 @@ router.get('/', function(request, response){
 // get index page
 router.get('/dashboard', async function(request, response){
     try {
-        const stories = await Story.find({}).lean();
-        response.render('dashboard', {
-        title: request.title,
-        stories
-    })
+        const stories = await Story.find({})
+        response.status(200).json({ stories });
     } catch (error) {
         console.log(error);
     }
