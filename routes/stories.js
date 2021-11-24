@@ -12,11 +12,12 @@ router.get('/add', function(request, response){
 router.post('/', async function(request, response){
     try {
       await Story.create()
-      response.redirect('stories')
+      response.redirect('dashboard')
     } catch (error) {
       console.error(error)
       response.render('errors/500')
     }
   })
+
 
 module.exports = router;

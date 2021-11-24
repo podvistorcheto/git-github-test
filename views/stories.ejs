@@ -1,0 +1,18 @@
+<h1>Stories</h1>
+<div class="row">
+    <% if (stories.length > 0) { %>
+        <% stories.forEach(story => { %>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <h5><%= story.title %></h5>
+                        <p><%= story.body %></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+    <p>No stories to display</p>
+    <% } %>
+</div>

@@ -5,7 +5,7 @@ const Story = require('../models/Story')
 
 // get dashboard
 router.get('/', function(request, response){
-    response.render('home')
+    response.render('index')
 })
 
 // get index page
