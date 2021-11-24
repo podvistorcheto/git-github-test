@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-// const { stringify } = require('uuid');
+const Schema = mongoose.Schema;
 
-const StorySchema = new mongoose.Schema({
+const StorySchema = new Schema({
     title: {
       type: String,
       required:[true, 'must provide a name'],
@@ -14,10 +14,7 @@ const StorySchema = new mongoose.Schema({
       trim: true,
       maxlength: [350, 'name limit is 350 characters'],
     },
-    addedAt: {
-      type: Date,
-      default: Date.now,
-    },
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('Story', StorySchema);
+const Story = mongoose.model('Story', StorySchema);
+module.exports = Story;
