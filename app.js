@@ -1,12 +1,11 @@
 const { response, request } = require('express');
 const express = require('express');
 const path = require('path');
-const logger = require('./middleware/logger');
 const { engine } = require('express-handlebars');
 const dotenv = require('dotenv');
 const connectMongoDB = require('./config/database');
 const morgan = require('morgan');
-const Story = require('./models/Story')
+const Blog = require('./models/Blog')
 
 // database connect
 dotenv.config({ path: './config/.config.env'})
@@ -14,13 +13,10 @@ dotenv.config({ path: './config/.config.env'})
 const app = express()
 
 // body parse middleware
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// init middleware
-app.use(logger);
-
-// use database connectivity
 connectMongoDB();
 
 // morgan set up
@@ -32,53 +28,46 @@ if (process.env.NODE_ENV = 'development') {
 app.set('view engine', 'ejs');
 
 const port = process.env.PORT || 5000
-const storiesRoute = require('./routes/stories');
 // 2. setup static and middleware
 app.use(express.static(path.join(__dirname, './public')));
 
-// routes/api folder routes
-// app.use('/api/finstocks', require('./routes/api/finstocks'));
-app.use('/', require('./routes/index'));
-// app.use('/stories', storiesRoute);
-
-
-// DB routes
-
-app.get('/add-story', function(requrest, response){
-  const addNewStory = new Story({
-    title: 'guest book 3',
-    body: 'more about my new guestbook'
-  });
-  addNewStory.save().then(function(result){
-    response.send(result)
-  }).catch(function(error){
-    console.log(error);
-  });
-});
-
-// get all stories from mongodb
-app.get('/stories', function(request, response){
-  Story.find().then(function(result){
-    response.send(result);
-  }).catch(function(error){
-    console.log(error);
-  });
-});
-
-// get single story
-app.get('/story-id', function(request, response){
-  Story.findById('619e14da12491f81d9d63bbe').then(function(result){
-    response.send(result)
-  }).catch(function(error){
-    console.log(error);
-  });
+// 3. link the views files
+app.get('/', function(request, response){
+  response.redirect('/blogs');
 })
 
-// app.all('*', function(request, response){
-//   response.status(404).send('Resource Not Found')
-// })
+app.get('/about', function(request, response){
+  response.render('about',  {title: "About"});
+})
+
+// blog routes
+app.get('/blogs', function(request, response){
+  Blog.find().sort({ createdAt: -1 }).then(function(result){
+    response.render('index', { title: 'All Blogs', blogs: result })
+  }).catch(function(error){
+    console.log(error);
+  })
+})
+
+app.post('/blogs', function(request, response){
+  const blog = new Blog(request.body);
+  blog.save().then(function(result){
+    response.redirect('/blogs');
+  }).catch(function(error){
+    console.log(error);
+  })
+});
+
+app.get('/blogs/create', function(request, response){
+  response.render('create',  {title: "Create a new blog"});
+})
+
+app.use(function(request, response){
+  response.status(404).render('404')
+});
 
 app.listen(port, function() {
   console.log(`Server listening on port ${process.env.NODE_ENV} mode on ${port}...`)
 })
+
 

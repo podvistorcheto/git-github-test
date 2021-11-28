@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const StorySchema = new Schema({
+const blogSchema = new Schema({
     title: {
       type: String,
       required:[true, 'must provide a name'],
@@ -16,5 +16,5 @@ const StorySchema = new Schema({
     },
 }, { timestamps: true });
 
-const Story = mongoose.model('Story', StorySchema);
-module.exports = Story;
+const Blog = mongoose.model('Blog', blogSchema);
+module.exports = Blog;
